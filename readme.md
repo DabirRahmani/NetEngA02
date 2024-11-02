@@ -52,19 +52,21 @@
 
 12.1.3: sudo mv ~/dabirrahmani.csr /etc/nginx/ssl/
 
+12.1.4: update nginx configuration file
+
 12.2: sign with lets encrypt:
 
 12.2.1: sudo apt-get install certbot
 
-12.2.2: (for standalone apps like nodejs api we have to use) sudo certbot certonly --standalone -d dabirrahmani.ir -d www.dabirrahmani.ir (port 80 must be down)
+12.2.2: (for standalone apps like nodejs api we have to use) sudo certbot certonly --standalone -d dabirrahmani.ir -d www.dabirrahmani.ir (port 80 must be down before this command)
 
-13: change nginx conf for dabirrahmani.com:
+13: change nginx conf for dabirrahmani.ir:
 
     server {
         listen 443 ssl;
-        server_name dabirrahmani.ir;
+        server_name www.dabirrahmani.ir dabirrahmani.ir;
 
-        ssl_certificate /home/root/dabirrahmani.crt;
+        ssl_certificate /root/0000_cert.pem;
         ssl_certificate_key /home/root/dabirrahmani.key;
 
         ...
@@ -73,3 +75,11 @@
 13.1: sudo nginx -t
 
 13.2: sudo systemctl restart nginx
+
+13.3: better to run nodejs apps with pm2
+
+13.3.1: install it using npm install -g pm2
+
+13.3.2: pm2 start npm --name "netengapp" -- start
+
+13.3.3: (add netengapp to start on startup) pm2 startup
